@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.mapper.UserMapper" >
+    <select id="queryUser" parameterType="java.lang.Integer"  resultType="com.example.model.User">
+        select * from blance where userId = #{id}
+    </select>
+    <update id="updateUser" parameterType="java.util.Map"  >
+        update blance set userId =#{newId} where userId = #{id}
+    </update>
+
+
+    <select id="queryUserAll" parameterType="java.util.Map"  resultType="com.example.model.User">
+        select * from blance
+    </select>
+</mapper>
