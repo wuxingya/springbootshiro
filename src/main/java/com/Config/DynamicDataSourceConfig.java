@@ -28,7 +28,7 @@ public class DynamicDataSourceConfig {
      * @return
      */
     @Bean
-    @Primary
+    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
         // 默认数据源

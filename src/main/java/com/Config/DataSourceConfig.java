@@ -28,58 +28,6 @@ public class DataSourceConfig {
     static final String MAPPER_LOCATION = "classpath:mapping/*.xml";
     @Autowired
     Environment environment;
-    @Value("${spring.datasource1.url}")
-    private String dbUrl;
-
-    @Value("${spring.datasource1.username}")
-    private String username;
-
-    @Value("${spring.datasource1.password}")
-    private String password;
-
-    @Value("${spring.datasource1.driver-class-name}")
-    private String driverClassName;
-
-    @Value("${spring.datasource1.initialSize}")
-    private int initialSize;
-
-    @Value("${spring.datasource1.minIdle}")
-    private int minIdle;
-
-    @Value("${spring.datasource1.maxActive}")
-    private int maxActive;
-
-    @Value("${spring.datasource1.maxWait}")
-    private int maxWait;
-
-    @Value("${spring.datasource1.timeBetweenEvictionRunsMillis}")
-    private int timeBetweenEvictionRunsMillis;
-
-    @Value("${spring.datasource1.minEvictableIdleTimeMillis}")
-    private int minEvictableIdleTimeMillis;
-
-    @Value("${spring.datasource1.validationQuery}")
-    private String validationQuery;
-
-    @Value("${spring.datasource1.testWhileIdle}")
-    private boolean testWhileIdle;
-
-    @Value("${spring.datasource1.testOnBorrow}")
-    private boolean testOnBorrow;
-
-    @Value("${spring.datasource1.testOnReturn}")
-    private boolean testOnReturn;
-
-    @Value("${spring.datasource1.poolPreparedStatements}")
-    private boolean poolPreparedStatements;
-
-
-    @Value("${spring.datasource1.filters}")
-    private String filters;
-
-    @Value("{spring.datasource1.connectionProperties}")
-    private String connectionProperties;
-
     @Bean(name="dataSource1")     //声明其为Bean实例
 //    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource1(){
@@ -87,29 +35,29 @@ public class DataSourceConfig {
         logger.info("environment={}",environment.getProperty("spring.datasource1.url"));
         DruidDataSource datasource = new DruidDataSource();
 
-        datasource.setUrl(this.dbUrl);
-        datasource.setUsername(username);
-        datasource.setPassword(password);
-        datasource.setDriverClassName(driverClassName);
+        datasource.setUrl(environment.getProperty("spring.datasource1.url"));
+        datasource.setUsername(environment.getProperty("spring.datasource1.username"));
+        datasource.setPassword(environment.getProperty("spring.datasource1.password"));
+        datasource.setDriverClassName(environment.getProperty("spring.datasource1.driver-class-name"));
 
         //configuration
-        datasource.setInitialSize(initialSize);
-        datasource.setMinIdle(minIdle);
-        datasource.setMaxActive(maxActive);
-        datasource.setMaxWait(maxWait);
-        datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        datasource.setValidationQuery(validationQuery);
-        datasource.setTestWhileIdle(testWhileIdle);
-        datasource.setTestOnBorrow(testOnBorrow);
-        datasource.setTestOnReturn(testOnReturn);
-        datasource.setPoolPreparedStatements(poolPreparedStatements);
+        datasource.setInitialSize(environment.getProperty("spring.datasource1.initialSize",Integer.class));
+        datasource.setMinIdle(environment.getProperty("spring.datasource1.minIdle",Integer.class));
+        datasource.setMaxActive(environment.getProperty("spring.datasource1.maxActive",Integer.class));
+        datasource.setMaxWait(environment.getProperty("spring.datasource1.maxWait",Integer.class));
+        datasource.setTimeBetweenEvictionRunsMillis(environment.getProperty("spring.datasource1.timeBetweenEvictionRunsMillis",Integer.class));
+        datasource.setMinEvictableIdleTimeMillis(environment.getProperty("spring.datasource1.minEvictableIdleTimeMillis",Integer.class));
+        datasource.setValidationQuery(environment.getProperty("spring.datasource1.validationQuery"));
+        datasource.setTestWhileIdle(environment.getProperty("spring.datasource1.testWhileIdle",Boolean.class));
+        datasource.setTestOnBorrow(environment.getProperty("spring.datasource1.testOnBorrow",Boolean.class));
+        datasource.setTestOnReturn(environment.getProperty("spring.datasource1.testOnReturn",Boolean.class));
+        datasource.setPoolPreparedStatements(environment.getProperty("spring.datasource1.poolPreparedStatements",Boolean.class));
         try {
-            datasource.setFilters(filters);
+            datasource.setFilters(environment.getProperty("spring.datasource1.filters"));
         } catch (SQLException e) {
             logger.error("druid configuration initialization filter", e);
         }
-        datasource.setConnectionProperties(connectionProperties);
+        datasource.setConnectionProperties(environment.getProperty("spring.datasource1.connectionProperties"));
 
         return datasource;
     }
@@ -118,6 +66,7 @@ public class DataSourceConfig {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         try {
             factory.setDataSource(dataSource1);
+            //SqlSessionFactory 加入mapping xml的映射文件 执行时找不到对应的xml和方法
             factory.setMapperLocations(new PathMatchingResourcePatternResolver()
                     .getResources(DataSourceConfig.MAPPER_LOCATION));
             return factory.getObject();
