@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
@@ -19,9 +18,10 @@ import java.sql.SQLException;
 
 /**
  * Created by Administrator on 2017/12/12.
+ * 默认这个com.example.mapper.Test包下的所有Mapper.class 都是用 sqlSessionFactory2
  */
 @Configuration
-@MapperScan(basePackages="com.example.mapper.Test",sqlSessionFactoryRef="sqlSessionFactory2")
+@MapperScan(basePackages = "com.example.mapper.Test", sqlSessionFactoryRef = "sqlSessionFactory2")
 public class DataSourceConfig2 {
     private Logger logger = LoggerFactory.getLogger(DataSourceConfig2.class);
     static final String MAPPER_LOCATION = "classpath:mapping/*.xml";
@@ -77,9 +77,9 @@ public class DataSourceConfig2 {
     @Value("{spring.datasource2.connectionProperties}")
     private String connectionProperties;
 
-    @Bean(name="dataSource2")     //声明其为Bean实例
+    @Bean(name = "dataSource2")     //声明其为Bean实例
 //    @Primary  //在同样的DataSource中，首先使用被标注的DataSource
-    public DataSource dataSource2(){
+    public DataSource dataSource2() {
         DruidDataSource datasource = new DruidDataSource();
 
         datasource.setUrl(this.dbUrl);
@@ -108,8 +108,9 @@ public class DataSourceConfig2 {
 
         return datasource;
     }
+
     @Bean
-    public SqlSessionFactory sqlSessionFactory2(@Qualifier("dataSource2")DataSource dataSource2)  {
+    public SqlSessionFactory sqlSessionFactory2(@Qualifier("dataSource2") DataSource dataSource2) {
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         try {
             factory.setDataSource(dataSource2);
@@ -123,7 +124,7 @@ public class DataSourceConfig2 {
     }
 
     @Bean
-    public SqlSessionTemplate sqlSessionTemplate2(@Qualifier("sqlSessionFactory2")SqlSessionFactory sqlSessionFactory2) {
+    public SqlSessionTemplate sqlSessionTemplate2(@Qualifier("sqlSessionFactory2") SqlSessionFactory sqlSessionFactory2) {
         return new SqlSessionTemplate(sqlSessionFactory2);
     }
 
