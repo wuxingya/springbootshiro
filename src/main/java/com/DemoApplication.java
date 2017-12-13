@@ -2,6 +2,7 @@ package com;
 
 import com.example.demo.service.TestServer;
 import com.example.model.User;
+import com.example.service.TestService;
 import com.example.service.UserService;
 import com.github.pagehelper.PageInfo;
 
@@ -36,7 +37,8 @@ public class DemoApplication {
     com.wu.WuService iWuService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    TestService testService;
     @RequestMapping("/")
     public String hello(Map<String, Object> map, HttpServletRequest request) {
 
@@ -45,18 +47,21 @@ public class DemoApplication {
         testServer.Test();
         wuService.Test();
         iWuService.Test();
+        Integer id =testService.queryId(100);
+        logger.info("数据库2 的数据testid ={}",id);
         Map<String, Integer> parammap = new HashMap<>();
         parammap.put("id", 11111);
         parammap.put("newId", 1402846);
         User user = userService.queryUser(parammap);
-        System.out.println(user.toString());
-        System.out.println(user.getUserId());
-        System.out.println(user.getBlance());
-        System.out.println(user.getDate());
+        logger.info(user.toString());
+        logger.info(""+user.getUserId());
+        logger.info(""+user.getBlance());
+        logger.info(""+user.getDate());
         PageInfo<User> pageInfo = userService.queryUserAll(parammap);
         map.put("pageInfo", pageInfo);
         map.put("list", pageInfo.getList());
         logger.info("你好{}","asdf");
+
         return "hello";
     }
 

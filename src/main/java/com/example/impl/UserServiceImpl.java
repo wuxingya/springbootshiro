@@ -1,6 +1,7 @@
 package com.example.impl;
 
-import com.example.mapper.UserMapper;
+import com.datasource.DataSource;
+import com.example.mapper.User.UserMapper;
 import com.example.model.User;
 import com.example.service.UserService;
 import com.github.pagehelper.Page;
@@ -18,6 +19,7 @@ import java.util.Map;
  */
 @Transactional
 @Service
+@DataSource(value=DataSource.master)
 public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
@@ -31,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageInfo<User> queryUserAll(Map<String, Integer> map) {
+        //分页插件
         Page p =PageHelper.startPage(1,10);
         List<User> list= userMapper.queryUserAll(map);
         p.getResult();
