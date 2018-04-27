@@ -50,7 +50,7 @@ public class DemoApplication {
         Integer id =testService.queryId(100);
         logger.info("数据库2 的数据testid ={}",id);
         Map<String, Integer> parammap = new HashMap<>();
-        parammap.put("id", 11111);
+        parammap.put("id", 100);
         parammap.put("newId", 1402846);
         User user = userService.queryUser(parammap);
         logger.info(user.toString());
