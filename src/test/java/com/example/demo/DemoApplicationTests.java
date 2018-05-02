@@ -2,19 +2,50 @@ package com.example.demo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.redisUtils.JedisClientPool;
+import com.redisUtils.RedisService;
 import com.thoughtworks.xstream.XStream;
 import com.util.Data;
 import com.util.DataSet;
 import com.util.Item;
 import com.util.Message;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DemoApplicationTests {
+
+	@Autowired
+	RedisService redisService;
+	@Autowired
+	JedisClientPool jedisClientPool;
+	@Test
+	public void test2(){
+		redistest();
+		JedisTest();
+	}
+	@Test
+	public void redistest(){
+
+		redisService.set("key1","wu");
+		log.info(redisService.get("key1")+"++++++++++++++++");
+		redisService.set("key4","行呀");
+		log.info(redisService.get("key4")+"----------------");
+	}
+
+	@Test
+	public void JedisTest(){
+		jedisClientPool.set("key2","xingya");
+		log.info(jedisClientPool.get("key2")+"----------------");
+		jedisClientPool.set("key3","行呀");
+		log.info(jedisClientPool.get("key3")+"----------------");
+	}
 
 	@Test
 	public void contextLoads() {
