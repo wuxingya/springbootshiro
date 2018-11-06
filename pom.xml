@@ -152,7 +152,7 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<!--maven jdk 的版本要高于或等于 项目jdk版本-->
+					<!--maven jdk 的版本（环境变量）要高于或等于 项目jdk版本-->
 					<source>1.8</source>
 					<target>1.8</target>
 					<encoding>UTF-8</encoding>

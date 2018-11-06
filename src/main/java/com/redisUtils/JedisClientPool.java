@@ -150,5 +150,8 @@ public class JedisClientPool implements JedisClient{
 
     }
 
-
+    public String RANDOMKEY(){
+        Jedis jedis = jedisPool.getResource();
+        return jedis.randomKey();
+    }
 }

@@ -26,9 +26,15 @@ public class DemoApplicationTests {
 	@Autowired
 	JedisClientPool jedisClientPool;
 	@Test
-	public void test2(){
-		redistest();
-		JedisTest();
+	public void test2() throws InterruptedException {
+//		redistest();
+//		JedisTest();
+		while(true){
+
+		log.info(jedisClientPool.RANDOMKEY()+"---随机key");
+		Thread.sleep(500);
+		}
+
 	}
 	@Test
 	public void redistest(){
